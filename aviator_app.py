@@ -6,11 +6,17 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import os
+from dotenv import load_dotenv
 from datetime import datetime
 import pandas as pd
 from pandas import read_csv
 
-url = "https://www.betika.com/en-ke/aviator"
+
+
+load_dotenv()
+
+url = os.environ.get('URL')
 
 # Set the path to your ChromeDriver executable
 chrome_driver_path = "E:/Development/chromedriver-win64/chromedriver.exe"
@@ -39,8 +45,8 @@ username_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'in
 password_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="password"]')))
 
 # Enter your login credentials
-username_field.send_keys("0712922119")
-password_field.send_keys("Robyman1!")
+username_field.send_keys(os.environ.get('PASSWORD'))
+password_field.send_keys(os.environ.get('USERNAME'))
 
 # Submit the login form
 login_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button.session__form__button')))
