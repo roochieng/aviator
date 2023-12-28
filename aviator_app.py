@@ -15,7 +15,7 @@ chrome_driver_path = "E:/Development/chromedriver-win64/chromedriver.exe"
 
 # Create Chrome options
 chrome_options = Options()
-chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--headless")
 
 # You can add additional options if needed, e.g., headless mode
 # chrome_options.add_argument("--headless")
@@ -71,6 +71,7 @@ while True:
         odds_dict["odd"] = cleaned_payouts[0]
         odds_dict["datetime"] = datetime.now()
 
-
+print(check_list)
+print(odds_dict)
 # Close the browser window
 driver.quit()
