@@ -16,8 +16,7 @@ Right now it stores odd and the date plus time the odd was stored in a csv file.
 This should be able to help me determine any pattern that can be used to predict a safe bet in aviator
 
 ### Caution
-**
-- This is not to promote gambling
-- I am trying to improve my data science knowledge.
-- Nobody should use this as an investment advice or guide.
-**
+
+- **This is not to promote gambling**
+- **I am trying to improve my data science knowledge.**
+- **Nobody should use this as an investment advice or guide.**
