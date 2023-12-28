@@ -62,7 +62,7 @@ payouts = driver.find_element(By.XPATH, '//div[@class="result-history disabled-o
 payouts = payouts.text.split("\n")
 cleaned_payouts = [item.replace('x', '') for item in payouts]
 print(cleaned_payouts)
-check_list = []
+check_list = [1]
 odds_dict = {}
 
 while True:
