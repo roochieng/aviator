@@ -17,7 +17,7 @@ This should be able to help me determine any pattern that can be used to predict
 
 ### Caution
 **
-This is not to promote gambling
-I am trying to improve my data science knowledge.
-Nobody should use this as an investment advice or guide.
+- This is not to promote gambling
+- I am trying to improve my data science knowledge.
+- Nobody should use this as an investment advice or guide.
 **
