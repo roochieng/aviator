@@ -44,9 +44,9 @@ wait = WebDriverWait(driver, 20)
 username_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="text"][placeholder="e.g. 0712 234567"]')))
 password_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="password"]')))
 
-# Enter your login credentials
-username_field.send_keys(os.environ.get('PASSWORD'))
-password_field.send_keys(os.environ.get('USERNAME'))
+# login credentials
+username_field.send_keys(os.environ.get('USERNAME'))
+password_field.send_keys(os.environ.get('PASSWORD'))
 
 # Submit the login form
 login_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button.session__form__button')))
@@ -59,7 +59,6 @@ wait = WebDriverWait(driver, timeout=20)
 time.sleep(20)
 # Print the page source
 # print(driver.page_source) 
-## Use XPath to navigate through intervening elements
 wait = WebDriverWait(driver, 20)
 iframe = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@id="betika-fasta-container"]/iframe')))
 
