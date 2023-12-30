@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 from datetime import datetime
 import pandas as pd
 from pandas import read_csv
+import openpyxl
+from openpyxl.workbook import Workbook
 
 
 
@@ -61,42 +63,44 @@ time.sleep(20)
 # print(driver.page_source) 
 wait = WebDriverWait(driver, 20)
 iframe = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@id="betika-fasta-container"]/iframe')))
-
+driver.switch_to.frame(iframe)
 check_list = [0]
-odds_dict = {}
 text_file = "history.txt"
+dict_list = []
 
 nums_of_checks = 0
 status = True
 
 while status:
     # Switch to the iframe
-    driver.switch_to.frame(iframe)
     payouts = driver.find_element(By.XPATH, '//div[@class="result-history disabled-on-game-focused my-2"]')
     payouts = payouts.text.split("\n")
     cleaned_payouts = [item.replace('x', '') for item in payouts]
     if cleaned_payouts[0] != check_list[0]:
         check_list.insert(0, cleaned_payouts[0])
-        odds_dict["odd"] = cleaned_payouts[0]
-        odds_dict["datetime"] = datetime.now()
+        new_data = {}
+        new_data["odd"] = check_list[0]
+        new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        dict_list.append(new_data)
+
+        print(f"Round: {nums_of_checks}")
+        print(f"Odd: {check_list[0]}")
+        with open(text_file, 'a') as file:
+            file.write(f'{check_list[0]}\n')
         nums_of_checks += 1
-    if nums_of_checks == 1000:
+    if nums_of_checks > 2000:
         status = False
-    print(nums_of_checks)
-
-print(odds_dict)
-
-# Append the items to the existing text file
-with open(text_file, 'a') as file:
-    for item in check_list:
-        file.write(f'{item}\n')
 
 
+# # Write the updated dataframe to an Excel file
+# with pd.ExcelWriter('your_file.xlsx') as writer:
+#     df = pd.DataFrame({'odd': [dict_list['odd']], 'datetime': [dict_list['datetime']]})
+#     df.to_excel(writer, sheet_name='Sheet1', index=False)
 today_date = datetime.today().strftime('%Y-%m-%d')
-df = pd.DataFrame({'odd': [odds_dict['odd']], 'datetime': [odds_dict['datetime']]})
+df = pd.DataFrame(dict_list)
 df.to_csv(f"Aviator odds history {today_date}.csv", index=False)
 
 print(check_list)
-print(odds_dict)
+print(dict_list)
 # Close the browser window
 driver.quit()
