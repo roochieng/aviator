@@ -83,8 +83,7 @@ while status:
         new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
         dict_list.append(new_data)
 
-        print(f"Round: {nums_of_checks}")
-        print(f"Odd: {check_list[0]}")
+        print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
         with open(text_file, 'a') as file:
             file.write(f'{check_list[0]}\n')
         nums_of_checks += 1
@@ -100,7 +99,5 @@ today_date = datetime.today().strftime('%Y-%m-%d')
 df = pd.DataFrame(dict_list)
 df.to_csv(f"Aviator odds history {today_date}.csv", index=False)
 
-print(check_list)
-print(dict_list)
 # Close the browser window
 driver.quit()
