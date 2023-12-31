@@ -18,6 +18,7 @@ from openpyxl.workbook import Workbook
 
 load_dotenv()
 
+today_date = datetime.today().strftime('%Y-%m-%d')
 url = os.environ.get('URL')
 
 # Set the path to your ChromeDriver executable
@@ -63,16 +64,26 @@ time.sleep(20)
 # print(driver.page_source) 
 wait = WebDriverWait(driver, 20)
 iframe = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@id="betika-fasta-container"]/iframe')))
+# Switch to the iframe
 driver.switch_to.frame(iframe)
+
 check_list = [0]
-text_file = "history.txt"
+# text_file = f"history {today_date}.txt"
 dict_list = []
 
 nums_of_checks = 0
 status = True
 
+# Get account balance
+def get_balance()-> float:
+    balance = driver.find_element(By.XPATH, '//div[@class="balance px-2 d-flex justify-content-end align-items-center"]')
+    clean_balance = balance.text
+    balance_num = clean_balance.replace(' KES', '')
+    return (balance_num)
+
+
+"""
 while status:
-    # Switch to the iframe
     payouts = driver.find_element(By.XPATH, '//div[@class="result-history disabled-on-game-focused my-2"]')
     payouts = payouts.text.split("\n")
     cleaned_payouts = [item.replace('x', '') for item in payouts]
@@ -87,7 +98,7 @@ while status:
         with open(text_file, 'a') as file:
             file.write(f'{check_list[0]}\n')
         nums_of_checks += 1
-    if nums_of_checks > 2000:
+    if nums_of_checks > 3000:
         status = False
 
 
@@ -95,9 +106,9 @@ while status:
 # with pd.ExcelWriter('your_file.xlsx') as writer:
 #     df = pd.DataFrame({'odd': [dict_list['odd']], 'datetime': [dict_list['datetime']]})
 #     df.to_excel(writer, sheet_name='Sheet1', index=False)
-today_date = datetime.today().strftime('%Y-%m-%d')
 df = pd.DataFrame(dict_list)
 df.to_csv(f"Aviator odds history {today_date}.csv", index=False)
+"""
 
 # Close the browser window
 driver.quit()
