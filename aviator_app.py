@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 import time
 import os
 from dotenv import load_dotenv
@@ -75,12 +76,43 @@ nums_of_checks = 0
 status = True
 
 # Get account balance
-def get_balance()-> float:
-    balance = driver.find_element(By.XPATH, '//div[@class="balance px-2 d-flex justify-content-end align-items-center"]')
-    clean_balance = balance.text
-    balance_num = clean_balance.replace(' KES', '')
-    return (balance_num)
+def get_balance() -> float:
+    """Method to get Aviator account balance
 
+    Returns:
+        float: account balance in float type
+    """
+    balance = driver.find_element(By.XPATH, '//div[@class="balance px-2 d-flex justify-content-end align-items-center"]').text.replace(' KES', '')
+    return (float(balance))
+
+
+def get_betting_amount(balance) -> int:
+    return (int(balance // 5))
+
+# Locate and click Auto button
+auto_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
+ActionChains(driver).move_to_element(auto_button).perform()
+auto_button.click()
+
+
+# Update Bet Amount
+def update_bet_amount():
+    input_element = driver.find_element(By.XPATH, '//div[@class="input"]/input[@class="font-weight-bold"]')
+    if input_element.is_displayed() and input_element.is_enabled():
+        # Clear existing text by backspacing
+        input_element.send_keys(Keys.CONTROL + "a")
+        input_element.send_keys(Keys.BACKSPACE)
+        new_text = get_betting_amount(get_balance())
+        input_element.send_keys(new_text)
+
+
+# Update odds
+
+
+
+time.sleep(10)
+def place_bet(amount):
+    pass
 
 """
 while status:
