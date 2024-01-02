@@ -27,9 +27,8 @@ chrome_driver_path = "E:/Development/chromedriver-win64/chromedriver.exe"
 
 # Create Chrome options
 chrome_options = Options()
-# chrome_options.add_argument("--headless")
 
-# You can add additional options if needed, e.g., headless mode
+# Open chrome in background mode
 # chrome_options.add_argument("--headless")
 
 # Create a Chrome webdriver with options
@@ -55,14 +54,10 @@ password_field.send_keys(os.environ.get('PASSWORD'))
 # Submit the login form
 login_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button.session__form__button')))
 login_button.click()
-# JavaScript click on the login button
-# driver.execute_script("arguments[0].click();", login_button)
 
 # Wait for the dynamic content to load using WebDriverWait
 wait = WebDriverWait(driver, timeout=20)
 time.sleep(20)
-# Print the page source
-# print(driver.page_source) 
 wait = WebDriverWait(driver, 20)
 iframe = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@id="betika-fasta-container"]/iframe')))
 # Switch to the iframe
@@ -85,9 +80,10 @@ def get_balance() -> float:
     balance = driver.find_element(By.XPATH, '//div[@class="balance px-2 d-flex justify-content-end align-items-center"]').text.replace(' KES', '')
     return (float(balance))
 
-
-def get_betting_amount(balance) -> int:
-    return (int(balance // 5))
+# Get amount to bet
+def stake(balance) -> int:
+    amount = 5
+    return (int(balance // amount))
 
 # Locate and click Auto button
 auto_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
@@ -102,17 +98,44 @@ def update_bet_amount():
         # Clear existing text by backspacing
         input_element.send_keys(Keys.CONTROL + "a")
         input_element.send_keys(Keys.BACKSPACE)
-        new_text = get_betting_amount(get_balance())
+        new_text = stake(get_balance())
         input_element.send_keys(new_text)
 
-
+update_bet_amount()
 # Update odds
 
 
+"""
+#toggle Auto-cashout on
+auto_cash_out_xpath = '//button[@class="tab ng-star-inserted"]'
+auto_cash_out = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, auto_cash_out_xpath)))
+auto_cash_out3 = driver.find_element(By.XPATH, '//app-ui-switcher[@class="ng-untouched ng-pristine ng-valid"]/div[@class="input-switch off"]')
+auto_cash_out3.click()"""
 
 time.sleep(10)
-def place_bet(amount):
-    pass
+auto_cash_out_xpath = '//button[@class="tab ng-star-inserted"]'
+auto_cash_out = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, auto_cash_out_xpath)))
+driver.execute_script("arguments[0].scrollIntoView();", auto_cash_out)
+
+# Now you can interact with other elements after the click
+auto_cash_out_switcher = driver.find_element(By.XPATH, '//app-ui-switcher[@class="ng-untouched ng-pristine ng-valid"]/div[@class="input-switch off"]')
+auto_cash_out_switcher.click()
+
+
+
+# Odd update
+odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
+odd_element.send_keys(Keys.CONTROL + "a")
+odd_element.send_keys(Keys.BACKSPACE)
+new_text = "1.49"
+odd_element.send_keys(new_text)
+
+# bet by clicking bet button
+def place_bet():
+    button_xpath = '//button[@class="btn btn-success bet holiday-theme ng-star-inserted"]'
+    bet_button = driver.find_element(By.XPATH, button_xpath)
+    bet_button.click()
+
 
 """
 while status:
