@@ -16,11 +16,9 @@ import openpyxl
 from openpyxl.workbook import Workbook
 
 
-
-load_dotenv()
-
 today_date = datetime.today().strftime('%Y-%m-%d')
-url = os.environ.get('URL')
+url = 'https://www.betika.com/en-ke/aviator'
+
 
 # Set the path to your ChromeDriver executable
 chrome_driver_path = "E:/Development/chromedriver-win64/chromedriver.exe"
@@ -37,31 +35,20 @@ driver = webdriver.Chrome(service=service, options=chrome_options)
 
 # Open the URL in the browser
 driver.get(url)
+# Find the button by its class name
+demo_button = driver.find_element(By.CLASS_NAME, 'button.account__payments__submit.button.button__secondary')
 
-# Locate the login button and click it (assuming there's a separate login page)
-login_button = driver.find_element(By.LINK_TEXT, "Login")
-login_button.click()
+# Click the button
+demo_button.click()
 
-# Wait for the login page to load using WebDriverWait
-wait = WebDriverWait(driver, 20)
-username_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="text"][placeholder="e.g. 0712 234567"]')))
-password_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="password"]')))
 
-# login credentials
-username_field.send_keys(os.environ.get('USERNAME'))
-password_field.send_keys(os.environ.get('PASSWORD'))
-
-# Submit the login form
-login_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button.session__form__button')))
-login_button.click()
-
-# Wait for the dynamic content to load using WebDriverWait
 wait = WebDriverWait(driver, timeout=20)
 time.sleep(20)
 wait = WebDriverWait(driver, 20)
-iframe = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@id="betika-fasta-container"]/iframe')))
+iframe = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'aviator-iframe')))
 # Switch to the iframe
 driver.switch_to.frame(iframe)
+
 
 # Get account balance
 def get_balance() -> float:
@@ -73,10 +60,16 @@ def get_balance() -> float:
     balance = driver.find_element(By.XPATH, '//div[@class="balance px-2 d-flex justify-content-end align-items-center"]').text.replace(' KES', '')
     return (float(balance))
 
+
 # Get amount to bet
-def stake(balance) -> int:
-    amount = 5
-    return (int(balance // amount))
+def stake(total_balance) -> int:
+    spread = 5
+    return (int(total_balance // spread))
+
+#Close Extra Bet window
+extra_betwindow_element = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.CLASS_NAME, 'sec-hand-btn.close.ng-star-inserted')))
+extra_betwindow_element.click()
 
 # Locate and click Auto button
 auto_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
@@ -84,8 +77,10 @@ ActionChains(driver).move_to_element(auto_button).perform()
 auto_button.click()
 
 
+balance = float(driver.find_element(By.XPATH, '//div[@class="balance px-2 d-flex justify-content-end align-items-center"]').text.replace(' KES', ''))
+print(balance)
 
-# Now you can interact with other elements after the click
+# Click the auto cashout switch on
 auto_cash_out_switcher = driver.find_element(By.XPATH, '//app-ui-switcher[@class="ng-untouched ng-pristine ng-valid"]/div[@class="input-switch off"]')
 auto_cash_out_switcher.click()
 
@@ -97,6 +92,7 @@ odd_element.send_keys(Keys.BACKSPACE)
 new_text = "1.49"
 odd_element.send_keys(new_text)
 
+
 # Get bet amount
 def get_bet_amount():
     bet_amount = driver.find_element(By.XPATH, '//div[@class="input"]/input[@class="font-weight-bold"]')
@@ -104,18 +100,20 @@ def get_bet_amount():
         # Clear existing text by backspacing
         bet_amount.send_keys(Keys.CONTROL + "a")
         bet_amount.send_keys(Keys.BACKSPACE)
-        new_text = stake(get_balance())
+        new_text = stake(balance)
         bet_amount.send_keys(new_text)
+
 
 # bet by clicking bet button
 def place_bet():
     button_xpath = '//button[@class="btn btn-success bet ng-star-inserted"]'
     bet_button = driver.find_element(By.XPATH, button_xpath)
-    return bet_button.click()
+    bet_button.click()
+
 
 
 check_list = [0]
-text_file = f"history {today_date}.txt"
+text_file = f"Aviator history Demo Odds {today_date}.txt"
 dict_list = []
 
 nums_of_checks = 0
@@ -132,7 +130,7 @@ while status:
         if float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1:
             # Update Bet Amount
             get_bet_amount()
-            print(f"Current Balance{get_balance()}")
+            print(f"Current Balance: {get_balance()}")
             place_bet()
             print(f"Bet Placed with stake: {get_bet_amount()}")
             new_data = {}
@@ -159,8 +157,8 @@ while status:
             with open(text_file, 'a') as file:
                 file.write(f'{new_data}\n')
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-        """
-        elif float(check_list[0]) < 1.1 and float(check_list[1]) > 2.0 and float(check_list[2]) > 2.0:
+
+        elif float(check_list[0]) < 1.2 and float(check_list[1]) > 2.0 and float(check_list[2]) > 2.0:
             get_bet_amount()
             print(f"Current Balance{get_balance()}")
             place_bet()
@@ -173,24 +171,24 @@ while status:
             dict_list.append(new_data)
             with open(text_file, 'a') as file:
                 file.write(f'{new_data}\n')
-            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")"""
+            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
         new_data = {}
         new_data["odd"] = check_list[0]
         new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
         new_data["round"] = nums_of_checks
-        new_data["odd_bet_placed"] = "No Bet Placed"
+        new_data["odd_bet_placed"] = "Not Placed"
         dict_list.append(new_data)
         print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
         with open(text_file, 'a') as file:
             file.write(f'{new_data}\n')
         nums_of_checks += 1
-    if nums_of_checks > 3000:
+    if nums_of_checks > 1500:
         status = False
-
-
 df = pd.DataFrame(dict_list)
-df.to_csv(f"Aviator odds history {today_date}.csv", index=False)
+df.to_csv(f"Aviator Demo odds history {today_date}.csv", index=False)
 
 
-# Close the browser window
+time.sleep(10)
+
+
 driver.quit()
