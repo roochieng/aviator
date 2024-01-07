@@ -89,7 +89,7 @@ auto_cash_out_switcher.click()
 odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
 odd_element.send_keys(Keys.CONTROL + "a")
 odd_element.send_keys(Keys.BACKSPACE)
-new_text = "1.49"
+new_text = "2.0"
 odd_element.send_keys(new_text)
 
 
@@ -127,7 +127,7 @@ while status:
 
     if cleaned_payouts[0] != check_list[0]:
         check_list.insert(0, cleaned_payouts[0])
-        if float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1:
+        if float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1 and float(check_list[2]) < 1.1:
             # Update Bet Amount
             get_bet_amount()
             print(f"Current Balance: {get_balance()}")
@@ -143,7 +143,7 @@ while status:
                 file.write(f'{new_data}\n')
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
 
-        elif float(check_list[0]) < 1.2 and float(check_list[1]) < 1.2 and float(check_list[2]) < 1.2:
+        elif float(check_list[0]) < 1.2 and float(check_list[1]) < 1.2 and float(check_list[2]) < 1.2 and float(check_list[3]) < 1.2:
             get_bet_amount()
             print(f"Current Balance{get_balance()}")
             place_bet()
@@ -158,7 +158,7 @@ while status:
                 file.write(f'{new_data}\n')
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
 
-        elif float(check_list[0]) < 1.2 and float(check_list[1]) > 2.0 and float(check_list[2]) > 2.0:
+        elif float(check_list[0]) < 1.2 and float(check_list[1]) > 2.0 and float(check_list[2]) > 2.0 and float(check_list[3]) < 1.3:
             get_bet_amount()
             print(f"Current Balance{get_balance()}")
             place_bet()

@@ -79,13 +79,12 @@ def stake(balance) -> int:
     return (int(balance // amount))
 
 # Locate and click Auto button
-auto_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
+auto_button = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
 ActionChains(driver).move_to_element(auto_button).perform()
 auto_button.click()
 
-
-
-# Now you can interact with other elements after the click
+time.sleep(5)
+# Click auto-cashout to on
 auto_cash_out_switcher = driver.find_element(By.XPATH, '//app-ui-switcher[@class="ng-untouched ng-pristine ng-valid"]/div[@class="input-switch off"]')
 auto_cash_out_switcher.click()
 
@@ -111,10 +110,10 @@ def get_bet_amount():
 def place_bet():
     button_xpath = '//button[@class="btn btn-success bet ng-star-inserted"]'
     bet_button = driver.find_element(By.XPATH, button_xpath)
-    return bet_button.click()
+    bet_button.click()
 
 
-check_list = [0]
+check_list = [0, 0, 0, 0, 0, 0]
 text_file = f"history {today_date}.txt"
 dict_list = []
 
@@ -129,51 +128,37 @@ while status:
 
     if cleaned_payouts[0] != check_list[0]:
         check_list.insert(0, cleaned_payouts[0])
-        if float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1:
+        if float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1 and float(check_list[1]) < 1.1:
             # Update Bet Amount
             get_bet_amount()
-            print(f"Current Balance{get_balance()}")
+            print(f"Current Balance: {get_balance()}")
             place_bet()
-            print(f"Bet Placed with stake: {get_bet_amount()}")
-            new_data = {}
-            new_data["odd"] = check_list[0]
-            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            new_data["round"] = nums_of_checks
-            new_data["odd_bet_placed"] = "Next"
-            dict_list.append(new_data)
-            with open(text_file, 'a') as file:
-                file.write(f'{new_data}\n')
+            print(f"Bet Placed on Pattern 1, stake: {stake(get_balance())}")
+            # new_data = {}
+            # new_data["odd"] = check_list[0]
+            # new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+            # new_data["round"] = nums_of_checks
+            # new_data["odd_bet_placed"] = "Next"
+            # dict_list.append(new_data)
+            # with open(text_file, 'a') as file:
+            #     file.write(f'{new_data}\n')
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
 
-        elif float(check_list[0]) < 1.2 and float(check_list[1]) < 1.2 and float(check_list[2]) < 1.2:
+        elif float(check_list[0]) < 1.2 and float(check_list[1]) > 2.0 and float(check_list[2]) < 1.2 and float(check_list[3]) < 1.5 and float(check_list[4]) < 1.5 and float(check_list[5]) < 1.5 and float(check_list[6]) < 1.5:
             get_bet_amount()
-            print(f"Current Balance{get_balance()}")
+            print(f"Current Balance: {get_balance()}")
             place_bet()
-            print(f"Bet Placed with stake: {get_bet_amount()}")
-            new_data = {}
-            new_data["odd"] = check_list[0]
-            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            new_data["round"] = nums_of_checks
-            new_data["odd_bet_placed"] = "Next"
-            dict_list.append(new_data)
-            with open(text_file, 'a') as file:
-                file.write(f'{new_data}\n')
+            print(f"Bet Placed on pattern 2, stake: {stake(get_balance())}")
+            # new_data = {}
+            # new_data["odd"] = check_list[0]
+            # new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+            # new_data["round"] = nums_of_checks
+            # new_data["odd_bet_placed"] = "Next"
+            # dict_list.append(new_data)
+            # with open(text_file, 'a') as file:
+            #     file.write(f'{new_data}\n')
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-        """
-        elif float(check_list[0]) < 1.1 and float(check_list[1]) > 2.0 and float(check_list[2]) > 2.0:
-            get_bet_amount()
-            print(f"Current Balance{get_balance()}")
-            place_bet()
-            print(f"Bet Placed with stake: {get_bet_amount()}")
-            new_data = {}
-            new_data["odd"] = check_list[0]
-            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            new_data["round"] = nums_of_checks
-            new_data["odd_bet_placed"] = "Next"
-            dict_list.append(new_data)
-            with open(text_file, 'a') as file:
-                file.write(f'{new_data}\n')
-            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")"""
+
         new_data = {}
         new_data["odd"] = check_list[0]
         new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
