@@ -113,7 +113,8 @@ def place_bet():
     bet_button.click()
 
 
-check_list = [0, 0, 0, 0, 0, 0]
+check_list = [99, 99, 99, 99, 99, 0]
+time_list = [0, 0]
 text_file = f"history {today_date}.txt"
 dict_list = []
 
@@ -128,7 +129,8 @@ while status:
 
     if cleaned_payouts[0] != check_list[0]:
         check_list.insert(0, cleaned_payouts[0])
-        if float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1 and float(check_list[1]) < 1.1:
+        time_list.insert(0, datetime.today().strftime('%Y-%m-%d %H:%M:%S'))
+        if float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1 and float(check_list[1]) < 1.1 and time_list[0] != datetime.today().strftime('%Y-%m-%d %H:%M:%S'):
             # Update Bet Amount
             get_bet_amount()
             print(f"Current Balance: {get_balance()}")
@@ -144,11 +146,25 @@ while status:
             #     file.write(f'{new_data}\n')
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
 
-        elif float(check_list[0]) < 1.2 and float(check_list[1]) > 2.0 and float(check_list[2]) < 1.2 and float(check_list[3]) < 1.5 and float(check_list[4]) < 1.5 and float(check_list[5]) < 1.5 and float(check_list[6]) < 1.5:
+        elif float(check_list[0]) < 1.2 and float(check_list[1]) > 2.0 and float(check_list[2]) < 1.2 and float(check_list[3]) < 1.5 and float(check_list[4]) < 1.5 and float(check_list[5]) < 1.5 and float(check_list[6]) < 1.5 and time_list[0] != datetime.today().strftime('%Y-%m-%d %H:%M:%S'):
             get_bet_amount()
             print(f"Current Balance: {get_balance()}")
             place_bet()
             print(f"Bet Placed on pattern 2, stake: {stake(get_balance())}")
+            # new_data = {}
+            # new_data["odd"] = check_list[0]
+            # new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+            # new_data["round"] = nums_of_checks
+            # new_data["odd_bet_placed"] = "Next"
+            # dict_list.append(new_data)
+            # with open(text_file, 'a') as file:
+            #     file.write(f'{new_data}\n')
+            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
+        elif float(check_list[0]) > 10.0 and float(check_list[1]) < 1.2 and float(check_list[2]) < 1.5 and float(check_list[3]) < 1.5 and time_list[0] != datetime.today().strftime('%Y-%m-%d %H:%M:%S'):
+            get_bet_amount()
+            print(f"Current Balance: {get_balance()}")
+            place_bet()
+            print(f"Bet Placed on pattern 3, stake: {stake(get_balance())}")
             # new_data = {}
             # new_data["odd"] = check_list[0]
             # new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
@@ -168,6 +184,10 @@ while status:
         print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
         with open(text_file, 'a') as file:
             file.write(f'{new_data}\n')
+        if len(check_list) > 20:
+            check_list.pop()
+        if len(time_list) > 20:
+            time_list.pop()
         nums_of_checks += 1
     if nums_of_checks > 3000:
         status = False
