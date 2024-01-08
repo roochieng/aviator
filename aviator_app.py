@@ -113,7 +113,7 @@ def place_bet():
     bet_button.click()
 
 
-check_list = [99, 99, 99, 99, 99, 0]
+check_list = [99, 99, 99, 99, 99, 0, 0]
 time_list = [0, 0]
 text_file = f"history {today_date}.txt"
 dict_list = []
@@ -160,6 +160,7 @@ while status:
             with open(text_file, 'a') as file:
                 file.write(f'{new_data}\n')
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
+            
         elif float(check_list[0]) > 10.0 and float(check_list[1]) < 1.2 and float(check_list[2]) < 1.5 and float(check_list[3]) < 1.5:
             get_bet_amount()
             print(f"Current Balance: {get_balance()}")
