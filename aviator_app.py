@@ -130,7 +130,7 @@ while status:
     if cleaned_payouts[0] != check_list[0] and time_list[0] != datetime.today().strftime('%Y-%m-%d %H:%M:%S'):
         check_list.insert(0, cleaned_payouts[0])
         time_list.insert(0, datetime.today().strftime('%Y-%m-%d %H:%M:%S'))
-        if float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1 and float(check_list[1]) < 1.1:
+        if float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1 and float(check_list[2]) < 1.1:
             # Update Bet Amount and place bet
             get_bet_amount()
             print(f"Current Balance: {get_balance()}")
