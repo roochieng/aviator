@@ -79,7 +79,7 @@ def stake(balance) -> int:
     return (int(balance // amount))
 
 # Locate and click Auto button
-auto_button = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
+auto_button = WebDriverWait(driver, 25).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
 ActionChains(driver).move_to_element(auto_button).perform()
 auto_button.click()
 
@@ -112,10 +112,15 @@ def place_bet():
     bet_button = driver.find_element(By.XPATH, button_xpath)
     bet_button.click()
 
+payouts_data = driver.find_element(By.XPATH, '//div[@class="result-history disabled-on-game-focused my-2"]')
+payouts_data = payouts_data.text.split("\n")
+prep_data = [item.replace('x', '') for item in payouts_data]
 
-check_list = [99, 99, 99, 99, 99, 0, 0]
-time_list = [0, 0]
+
+
+check_list = prep_data[::]
 text_file = f"history {today_date}.txt"
+previous_cleaned_payouts = ['s', 'a', 'c']
 dict_list = []
 
 nums_of_checks = 0
@@ -127,9 +132,9 @@ while status:
     payouts = payouts.text.split("\n")
     cleaned_payouts = [item.replace('x', '') for item in payouts]
 
-    if cleaned_payouts[0] != check_list[0] and time_list[0] != datetime.today().strftime('%Y-%m-%d %H:%M:%S'):
+    if cleaned_payouts[0:4] != check_list[0:4]:
+        previous_cleaned_payouts = cleaned_payouts
         check_list.insert(0, cleaned_payouts[0])
-        time_list.insert(0, datetime.today().strftime('%Y-%m-%d %H:%M:%S'))
         if float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1 and float(check_list[2]) < 1.1:
             # Update Bet Amount and place bet
             get_bet_amount()
@@ -160,7 +165,7 @@ while status:
             with open(text_file, 'a') as file:
                 file.write(f'{new_data}\n')
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-            
+
         elif float(check_list[0]) > 10.0 and float(check_list[1]) < 1.2 and float(check_list[2]) < 1.5 and float(check_list[3]) < 1.5:
             get_bet_amount()
             print(f"Current Balance: {get_balance()}")
@@ -175,20 +180,21 @@ while status:
             with open(text_file, 'a') as file:
                 file.write(f'{new_data}\n')
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-    else:
-        new_data = {}
-        new_data["odd"] = check_list[0]
-        new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        new_data["round"] = nums_of_checks
-        new_data["odd_bet_placed"] = "No Bet Placed"
-        dict_list.append(new_data)
-        print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-        with open(text_file, 'a') as file:
-            file.write(f'{new_data}\n')
+
+        else:
+            new_data = {}
+            new_data["odd"] = check_list[0]
+            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+            new_data["round"] = nums_of_checks
+            new_data["odd_bet_placed"] = "No Bet Placed"
+            dict_list.append(new_data)
+            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
+            with open(text_file, 'a') as file:
+                file.write(f'{new_data}\n')
+
+
         if len(check_list) > 20:
             check_list.pop()
-        if len(time_list) > 20:
-            time_list.pop()
         nums_of_checks += 1
     if nums_of_checks > 3000:
         status = False
