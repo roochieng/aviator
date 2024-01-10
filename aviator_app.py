@@ -151,7 +151,7 @@ while status:
                 file.write(f'{new_data}\n')
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
 
-        elif float(check_list[0]) < 1.2 and float(check_list[1]) > 2.0 and float(check_list[2]) < 1.2 and float(check_list[3]) < 1.5 and float(check_list[4]) < 1.5 and float(check_list[5]) < 1.5 and float(check_list[6]) < 1.5:
+        elif float(check_list[0]) < 1.09 and float(check_list[1]) < 1.09:
             get_bet_amount()
             print(f"Current Balance: {get_balance()}")
             place_bet()
@@ -166,20 +166,20 @@ while status:
                 file.write(f'{new_data}\n')
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
 
-        elif float(check_list[0]) > 10.0 and float(check_list[1]) < 1.2 and float(check_list[2]) < 1.5 and float(check_list[3]) < 1.5:
-            get_bet_amount()
-            print(f"Current Balance: {get_balance()}")
-            place_bet()
-            print(f"Bet Placed on pattern 3, stake: {stake(get_balance())}")
-            new_data = {}
-            new_data["odd"] = check_list[0]
-            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            new_data["round"] = nums_of_checks
-            new_data["odd_bet_placed"] = "Next with Pattern 3"
-            dict_list.append(new_data)
-            with open(text_file, 'a') as file:
-                file.write(f'{new_data}\n')
-            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
+        # elif float(check_list[0]) > 10.0 and float(check_list[1]) < 1.3 and float(check_list[2]) < 1.3:
+        #     get_bet_amount()
+        #     print(f"Current Balance: {get_balance()}")
+        #     place_bet()
+        #     print(f"Bet Placed on pattern 3, stake: {stake(get_balance())}")
+        #     new_data = {}
+        #     new_data["odd"] = check_list[0]
+        #     new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        #     new_data["round"] = nums_of_checks
+        #     new_data["odd_bet_placed"] = "Next with Pattern 3"
+        #     dict_list.append(new_data)
+        #     with open(text_file, 'a') as file:
+        #         file.write(f'{new_data}\n')
+        #     print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
 
         else:
             new_data = {}
