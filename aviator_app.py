@@ -14,10 +14,23 @@ import pandas as pd
 from pandas import read_csv
 import openpyxl
 from openpyxl.workbook import Workbook
+from plyer import notification
 
 
 
 load_dotenv()
+
+
+# windows notification system
+
+def show_notification(title, message):
+    notification.notify(
+        title=title,
+        message=message,
+        app_icon=None,  # e.g. 'C:\\icon_32x32.ico'
+        timeout=10,  # seconds
+    )
+
 
 today_date = datetime.today().strftime('%Y-%m-%d')
 url = os.environ.get('URL')
@@ -137,6 +150,7 @@ while status:
         check_list.insert(0, cleaned_payouts[0])
         if float(check_list[0]) < 1.04 and float(check_list[1]) < 1.04 and float(check_list[2]) < 1.04:
             # Update Bet Amount and place bet
+            show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]} and {check_list[1]} ")
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
             get_bet_amount()
             print(f"Current Balance: {get_balance()}")
