@@ -127,32 +127,11 @@ def get_bet_amount():
         bet_amount.send_keys(new_text)
 
 # Odd update
-def first_odd_bet():
-    odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
-    odd_element.send_keys(Keys.CONTROL + "a")
-    odd_element.send_keys(Keys.BACKSPACE)
-    new_text = "1.1"
-    odd_element.send_keys(new_text)
-
 def second_odd_bet():
     odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
     odd_element.send_keys(Keys.CONTROL + "a")
     odd_element.send_keys(Keys.BACKSPACE)
     new_text = "1.50"
-    odd_element.send_keys(new_text)
-
-def fourth_odd_bet():
-    odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
-    odd_element.send_keys(Keys.CONTROL + "a")
-    odd_element.send_keys(Keys.BACKSPACE)
-    new_text = "1.35"
-    odd_element.send_keys(new_text)
-
-def third_odd_bet():
-    odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
-    odd_element.send_keys(Keys.CONTROL + "a")
-    odd_element.send_keys(Keys.BACKSPACE)
-    new_text = "2.00"
     odd_element.send_keys(new_text)
 
 
@@ -191,77 +170,6 @@ while status:
             with open(text_file, 'a') as file:
                 file.write(f'{new_data}\n')
 
-        # elif float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1 and float(check_list[2]) < 1.1:
-        #     show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]} and {check_list[1]} ")
-        #     # Update Bet Amount and place bet
-        #     first_odd_bet()
-        #     get_bet_amount()
-        #     place_bet()
-        #     print(f"Current Balance: {get_balance()}")
-        #     print(f"Bet Placed on Pattern 4, stake: {stake(get_balance())}")
-        #     new_data = {}
-        #     new_data["odd"] = check_list[0]
-        #     new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        #     new_data["round"] = nums_of_checks
-        #     new_data["odd_bet_placed"] = "Next with Pattern 4"
-        #     dict_list.append(new_data)
-        #     with open(text_file, 'a') as file:
-        #         file.write(f'{new_data}\n')
-        #     print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-
-
-        # elif float(check_list[0]) == 1.00 and float(check_list[1]) == 1.00:
-        #     # Update Bet Amount and place bet
-        #     third_odd_bet()
-        #     get_bet_amount()
-        #     place_bet()
-        #     print(f"Current Balance: {get_balance()}")
-        #     print(f"Bet Placed on Pattern 3, stake: {stake(get_balance())}")
-        #     new_data = {}
-        #     new_data["odd"] = check_list[0]
-        #     new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        #     new_data["round"] = nums_of_checks
-        #     new_data["odd_bet_placed"] = "Next with Pattern 3"
-        #     dict_list.append(new_data)
-        #     with open(text_file, 'a') as file:
-        #         file.write(f'{new_data}\n')
-        #     print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-
-        # elif float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1:
-        #     # Update Bet Amount and place bet
-        #     second_odd_bet()
-        #     get_bet_amount()
-        #     place_bet()
-        #     print(f"Current Balance: {get_balance()}")
-        #     print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
-        #     new_data = {}
-        #     new_data["odd"] = check_list[0]
-        #     new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        #     new_data["round"] = nums_of_checks
-        #     new_data["odd_bet_placed"] = "Next with Pattern 2"
-        #     dict_list.append(new_data)
-        #     with open(text_file, 'a') as file:
-        #         file.write(f'{new_data}\n')
-        #     print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-
-        # elif float(check_list[0]) < 1.25 and float(check_list[1]) < 1.25 and float(check_list[2]) < 1.25:
-        #     # Update Bet Amount and place bet
-        #     second_odd_bet()
-        #     get_bet_amount()
-        #     place_bet()
-        #     print(f"Current Balance: {get_balance()}")
-        #     print(f"Bet Placed on Pattern 5, stake: {stake(get_balance())}")
-        #     new_data = {}
-        #     new_data["odd"] = check_list[0]
-        #     new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        #     new_data["round"] = nums_of_checks
-        #     new_data["odd_bet_placed"] = "Next with Pattern 5"
-        #     dict_list.append(new_data)
-        #     with open(text_file, 'a') as file:
-        #         file.write(f'{new_data}\n')
-        #     print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-
-
         else:
             new_data = {}
             new_data["odd"] = check_list[0]
@@ -283,9 +191,6 @@ while status:
 
 df = pd.DataFrame(dict_list)
 df.to_csv(f"SportPesa Aviator odds history {today_date}.csv", index=False)
-
-
-
 
 time.sleep(10)
 # Close the browser window
