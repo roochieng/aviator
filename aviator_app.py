@@ -135,8 +135,9 @@ while status:
     if cleaned_payouts[0:4] != check_list[0:4]:
         previous_cleaned_payouts = cleaned_payouts
         check_list.insert(0, cleaned_payouts[0])
-        if float(check_list[0]) < 1.1 and float(check_list[1]) < 1.1 and float(check_list[2]) < 1.1:
+        if float(check_list[0]) < 1.04 and float(check_list[1]) < 1.04 and float(check_list[2]) < 1.04:
             # Update Bet Amount and place bet
+            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
             get_bet_amount()
             print(f"Current Balance: {get_balance()}")
             place_bet()
@@ -149,7 +150,6 @@ while status:
             dict_list.append(new_data)
             with open(text_file, 'a') as file:
                 file.write(f'{new_data}\n')
-            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
 
         # elif float(check_list[0]) < 1.09 and float(check_list[1]) < 1.09:
         #     get_bet_amount()
