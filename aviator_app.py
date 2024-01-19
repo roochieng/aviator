@@ -132,7 +132,7 @@ prep_data = [item.replace('x', '') for item in payouts_data]
 
 
 check_list = prep_data[::]
-text_file = f"history {today_date}.txt"
+text_file = f"betika_logs/Betika_Aviator_history {today_date}.txt"
 previous_cleaned_payouts = ['s', 'a', 'c']
 dict_list = []
 
@@ -185,7 +185,7 @@ while status:
 
 
 df = pd.DataFrame(dict_list)
-df.to_csv(f"Aviator odds history {today_date}.csv", index=False)
+df.to_csv(f"csv/Aviator odds history {today_date}.csv", index=False)
 
 
 # Close the browser window

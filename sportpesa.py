@@ -190,7 +190,7 @@ while status:
 
 
 df = pd.DataFrame(dict_list)
-df.to_csv(f"SportPesa Aviator odds history {today_date}.csv", index=False)
+df.to_csv(f"csv/SportPesa Aviator odds history {today_date}.csv", index=False)
 
 time.sleep(10)
 # Close the browser window
