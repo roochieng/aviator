@@ -17,9 +17,7 @@ from openpyxl.workbook import Workbook
 from plyer import notification
 
 
-
 load_dotenv()
-
 
 # windows notification system
 
@@ -32,8 +30,9 @@ def show_notification(title, message):
     )
 
 
+
 today_date = datetime.today().strftime('%Y-%m-%d')
-url = os.environ.get('URL')
+url = os.environ.get('ONE_X_BET')
 
 # Set the path to your ChromeDriver executable
 chrome_driver_path = "E:/Development/chromedriver-win64/chromedriver.exe"
@@ -51,28 +50,31 @@ driver = webdriver.Chrome(service=service, options=chrome_options)
 # Open the URL in the browser
 driver.get(url)
 
-# Locate the login button and click it (assuming there's a separate login page)
-login_button = driver.find_element(By.LINK_TEXT, "Login")
-login_button.click()
+# Find and interact with the login form elements
 
-# Wait for the login page to load using WebDriverWait
-wait = WebDriverWait(driver, 20)
-username_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="text"][placeholder="e.g. 0712 234567"]')))
+# Assuming 'driver' is your WebDriver instance
+wait = WebDriverWait(driver, 40)
+login_button = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'loginDropTop')))
+login_button.click()
+username_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="tel"][placeholder=" 712 123456"]')))
 password_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="password"]')))
 
-# login credentials
-username_field.send_keys(os.environ.get('USERNAME'))
+username_field.send_keys(os.environ.get('X_USERNAME'))
 password_field.send_keys(os.environ.get('PASSWORD'))
 
-# Submit the login form
-login_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button.session__form__button')))
+# Click login button
+login_button = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.CLASS_NAME, 'auth-button--block'))
+)
 login_button.click()
 
-# Wait for the dynamic content to load using WebDriverWait
-wait = WebDriverWait(driver, timeout=20)
-time.sleep(20)
+time.sleep(10)
+# Reload Page
+driver.refresh()
+time.sleep(30)
+
 wait = WebDriverWait(driver, 20)
-iframe = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@id="betika-fasta-container"]/iframe')))
+iframe = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@class="slots-app_place"]/iframe')))
 # Switch to the iframe
 driver.switch_to.frame(iframe)
 
@@ -83,13 +85,15 @@ def get_balance() -> float:
     Returns:
         float: account balance in float type
     """
-    balance = driver.find_element(By.XPATH, '//div[@class="balance px-2 d-flex justify-content-end align-items-center"]').text.replace(' KES', '')
+    balance = driver.find_element(By.XPATH, '//div[@class="amount font-weight-bold"]').text
     return (float(balance))
+print(get_balance())
 
 # Get amount to bet
 def stake(balance) -> int:
     amount = 2
     return (int(balance // amount))
+print(stake(get_balance()))
 
 # Locate and click Auto button
 auto_button = WebDriverWait(driver, 25).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
@@ -106,7 +110,7 @@ auto_cash_out_switcher.click()
 odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
 odd_element.send_keys(Keys.CONTROL + "a")
 odd_element.send_keys(Keys.BACKSPACE)
-new_text = "1.35"
+new_text = "1.1"
 odd_element.send_keys(new_text)
 
 # Get bet amount
@@ -118,6 +122,7 @@ def get_bet_amount():
         bet_amount.send_keys(Keys.BACKSPACE)
         new_text = stake(get_balance())
         bet_amount.send_keys(new_text)
+get_bet_amount()
 
 # bet by clicking bet button
 def place_bet():
@@ -129,7 +134,7 @@ payouts_data = driver.find_element(By.XPATH, '//div[@class="result-history disab
 payouts_data = payouts_data.text.split("\n")
 prep_data = [item.replace('x', '') for item in payouts_data]
 
-
+print(prep_data)
 
 check_list = prep_data[::]
 text_file = f"history {today_date}.txt"
@@ -139,53 +144,6 @@ dict_list = []
 nums_of_checks = 0
 status = True
 
-
-while status:
-    payouts = driver.find_element(By.XPATH, '//div[@class="result-history disabled-on-game-focused my-2"]')
-    payouts = payouts.text.split("\n")
-    cleaned_payouts = [item.replace('x', '') for item in payouts]
-
-    if cleaned_payouts[0:4] != check_list[0:4]:
-        previous_cleaned_payouts = cleaned_payouts
-        check_list.insert(0, cleaned_payouts[0])
-        if float(check_list[0]) < 1.04 and float(check_list[1]) < 1.04 and float(check_list[2]) < 1.04:
-            # Update Bet Amount and place bet
-            show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]} and {check_list[1]} ")
-            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-            get_bet_amount()
-            print(f"Current Balance: {get_balance()}")
-            place_bet()
-            print(f"Bet Placed on Pattern 1, stake: {stake(get_balance())}")
-            new_data = {}
-            new_data["odd"] = check_list[0]
-            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            new_data["round"] = nums_of_checks
-            new_data["odd_bet_placed"] = "Next with Pattern 1"
-            dict_list.append(new_data)
-            with open(text_file, 'a') as file:
-                file.write(f'{new_data}\n')
-
-        else:
-            new_data = {}
-            new_data["odd"] = check_list[0]
-            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            new_data["round"] = nums_of_checks
-            new_data["odd_bet_placed"] = "No Bet Placed"
-            dict_list.append(new_data)
-            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-            with open(text_file, 'a') as file:
-                file.write(f'{new_data}\n')
-
-
-        if len(check_list) > 20:
-            check_list.pop()
-        nums_of_checks += 1
-    if nums_of_checks > 3000:
-        status = False
-
-
-df = pd.DataFrame(dict_list)
-df.to_csv(f"Aviator odds history {today_date}.csv", index=False)
 
 
 # Close the browser window
