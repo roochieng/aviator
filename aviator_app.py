@@ -96,7 +96,7 @@ auto_button = WebDriverWait(driver, 25).until(EC.element_to_be_clickable((By.XPA
 ActionChains(driver).move_to_element(auto_button).perform()
 auto_button.click()
 
-time.sleep(5)
+
 # Click auto-cashout to on
 auto_cash_out_switcher = driver.find_element(By.XPATH, '//app-ui-switcher[@class="ng-untouched ng-pristine ng-valid"]/div[@class="input-switch off"]')
 auto_cash_out_switcher.click()
@@ -106,7 +106,7 @@ auto_cash_out_switcher.click()
 odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
 odd_element.send_keys(Keys.CONTROL + "a")
 odd_element.send_keys(Keys.BACKSPACE)
-new_text = "1.35"
+new_text = "1.1"
 odd_element.send_keys(new_text)
 
 # Get bet amount
@@ -164,7 +164,22 @@ while status:
             dict_list.append(new_data)
             with open(text_file, 'a') as file:
                 file.write(f'{new_data}\n')
-
+        elif float(check_list[0]) > 1.1 and float(check_list[1]) < 1.04 and float(check_list[2]) < 1.04 and float(check_list[3]) < 1.04:
+            # Update Bet Amount and place bet
+            show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]} and {check_list[1]} ")
+            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
+            get_bet_amount()
+            print(f"Current Balance: {get_balance()}")
+            place_bet()
+            print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
+            new_data = {}
+            new_data["odd"] = check_list[0]
+            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+            new_data["round"] = nums_of_checks
+            new_data["odd_bet_placed"] = "Next with Pattern 1"
+            dict_list.append(new_data)
+            with open(text_file, 'a') as file:
+                file.write(f'{new_data}\n')
         else:
             new_data = {}
             new_data["odd"] = check_list[0]

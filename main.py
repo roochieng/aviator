@@ -19,12 +19,12 @@ def run_one_x_bet():
 if __name__ == "__main__":
     sportpesa_process = multiprocessing.Process(target=run_sportpesa)
     aviator_app_process = multiprocessing.Process(target=run_aviator_app)
-    one_x_bet_process = multiprocessing.Process(target=run_one_x_bet)
+    # one_x_bet_process = multiprocessing.Process(target=run_one_x_bet)
 
     sportpesa_process.start()
     aviator_app_process.start()
-    one_x_bet_process.start()
+    # one_x_bet_process.start()
 
     sportpesa_process.join()
     aviator_app_process.join()
-    one_x_bet_process.join()
+    # one_x_bet_process.join()
