@@ -111,8 +111,11 @@ def get_balance() -> float:
 
 # Get amount to bet
 def stake(balance) -> int:
-    amount =  2
-    return int(balance // amount)
+    if int(balance // 2) > 2500:
+        bet_amount = 2500
+    else:
+        bet_amount = balance // 2
+    return int(balance // bet_amount)
 
 
 # Get bet amount

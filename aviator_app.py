@@ -88,8 +88,11 @@ def get_balance() -> float:
 
 # Get amount to bet
 def stake(balance) -> int:
-    amount = 2
-    return (int(balance // amount))
+    if int(balance // 2) > 2500:
+        bet_amount = 2500
+    else:
+        bet_amount = balance // 2
+    return int(balance // bet_amount)
 
 # Locate and click Auto button
 auto_button = WebDriverWait(driver, 25).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
