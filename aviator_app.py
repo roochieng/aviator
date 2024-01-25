@@ -110,7 +110,7 @@ def second_odd_bet():
     odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
     odd_element.send_keys(Keys.CONTROL + "a")
     odd_element.send_keys(Keys.BACKSPACE)
-    new_text = "1.1"
+    new_text = "1.15"
     odd_element.send_keys(new_text)
 
 
