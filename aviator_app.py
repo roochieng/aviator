@@ -195,7 +195,7 @@ while status:
         if len(check_list) > 20:
             check_list.pop()
         nums_of_checks += 1
-    if nums_of_checks > 3000:
+    if nums_of_checks > 30000:
         status = False
 
 
