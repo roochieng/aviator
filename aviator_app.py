@@ -92,7 +92,7 @@ def stake(balance) -> int:
         bet_amount = 2500
     else:
         bet_amount = balance // 2
-    return int(balance // bet_amount)
+    return (bet_amount)
 
 # Locate and click Auto button
 auto_button = WebDriverWait(driver, 25).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))

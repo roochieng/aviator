@@ -115,7 +115,7 @@ def stake(balance) -> int:
         bet_amount = 2500
     else:
         bet_amount = balance // 2
-    return int(balance // bet_amount)
+    return (bet_amount)
 
 
 # Get bet amount
