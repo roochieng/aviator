@@ -25,7 +25,7 @@ def show_notification(title, message):
     notification.notify(
         title=title,
         message=message,
-        app_icon=None,  # e.g. 'C:\\icon_32x32.ico'
+        app_icon=None,
         timeout=10,  # seconds
     )
 
@@ -57,7 +57,7 @@ password_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'in
 submit_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="submit"]')))
 
 # Enter login credentials
-username_input.send_keys(os.environ.get('USERNAME'))
+username_input.send_keys(os.environ.get('_USERNAME'))
 password_input.send_keys(os.environ.get('PASSWORD'))
 
 # Submit the form
@@ -70,7 +70,7 @@ casino_element = WebDriverWait(driver, 10).until(
 )
 casino_element.click()
 
-time.sleep(20)
+time.sleep(30)
 
 
 # Get list of last payouts
@@ -134,7 +134,7 @@ def second_odd_bet():
     odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
     odd_element.send_keys(Keys.CONTROL + "a")
     odd_element.send_keys(Keys.BACKSPACE)
-    new_text = "1.98"
+    new_text = "1.2"
     odd_element.send_keys(new_text)
 
 
@@ -163,8 +163,8 @@ while status:
     if cleaned_payouts[0:4] != check_list[0:4]:
         previous_cleaned_payouts = cleaned_payouts
         check_list.insert(0, cleaned_payouts[0])
-        if float(check_list[0]) < 1.04 and float(check_list[1]) < 1.04:
-            show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]} and {check_list[1]} ")
+        if float(check_list[0]) < 1.04 and float(check_list[1]) < 1.04 and float(check_list[2]) < 1.04:
+            show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]} and {check_list[1]} and {check_list[2]}")
             # Update Bet Amount and place bet
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
             second_odd_bet()

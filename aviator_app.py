@@ -61,7 +61,7 @@ username_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'in
 password_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="password"]')))
 
 # login credentials
-username_field.send_keys(os.environ.get('USERNAME'))
+username_field.send_keys(os.environ.get('_USERNAME'))
 password_field.send_keys(os.environ.get('PASSWORD'))
 
 # Submit the login form
