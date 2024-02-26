@@ -31,27 +31,30 @@ python script_name.py
 
 # Development Report
 1. ### Successes:
-  - Successfully developed Python scripts for automated odds collection.
-  - Implemented parallel processing to enhance efficiency.
-  - Data saved into Pandas DataFrame for future use.
+    - Successfully developed Python scripts for automated odds collection.
+    - Implemented parallel processing to enhance efficiency.
+    - Data saved into Pandas DataFrame for future use.
+
 2. ### Challenges:
-  - Overcoming website layout changes affecting web scraping.
-  - Ensuring script robustness and stability.
-  - Handling authentication and security measures on betting websites.
+    - Overcoming website layout changes affecting web scraping.
+    - Ensuring script robustness and stability.
+    - Handling authentication and security measures on betting websites.
+
 3. ### Areas for Improvement:
-  - Refining error handling and logging mechanisms.
-  - Enhancing scalability for additional betting websites.
-  - Improving data preprocessing for better model training.
+    - Refining error handling and logging mechanisms.
+    - Enhancing scalability for additional betting websites.
+    - Improving data preprocessing for better model training.
 
 4. ### Lessons Learned:
-  - Importance of flexibility in web scraping scripts.
-  - Collaboration and communication are crucial for a multi-team member project.
-  - Continuous monitoring and adaptation to website changes are essential.
+    - Importance of flexibility in web scraping scripts.
+    - Collaboration and communication are crucial for a multi-team member project.
+    - Continuous monitoring and adaptation to website changes are essential.
+
 5. ## Next Steps
-  - Utilize collected data to train predictive models for betting odds.
-  - Implement machine learning algorithms for odds prediction.
-  - Expand data collection to include more betting websites and sports.
-  - Regular updates and maintenance to accommodate website changes.
+    - Utilize collected data to train predictive models for betting odds.
+    - Implement machine learning algorithms for odds prediction.
+    - Expand data collection to include more betting websites and sports.
+    - Regular updates and maintenance to accommodate website changes.
 
 ## Contributions
 Contributions are welcome! If you have any suggestions, feature requests, or bug reports, please open an issue or submit a pull request.
