@@ -239,7 +239,7 @@ while status:
 
 
 df = pd.DataFrame(dict_list)
-df.to_csv(f"csv/Aviator odds history {today_date}.csv", index=False)
+df.to_csv(f"csv/One X_Bet Aviator odds history {today_date}.csv", index=False)
 
 # Close the browser window
 driver.quit()

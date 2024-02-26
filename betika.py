@@ -238,7 +238,7 @@ while status:
 
 
 df = pd.DataFrame(dict_list)
-df.to_csv(f"csv/Aviator odds history {today_date}.csv", index=False)
+df.to_csv(f"csv/Betika Aviator odds history {today_date}.csv", index=False)
 
 
 # Close the browser window
