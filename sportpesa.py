@@ -119,7 +119,7 @@ def stake(balance) -> int:
 
 
 # Get bet amount
-def get_bet_amount():
+def update_bet_amount():
     bet_amount = driver.find_element(By.XPATH, '//div[@class="input"]/input[@class="font-weight-bold"]')
     if bet_amount.is_displayed() and bet_amount.is_enabled():
         bet_amount.send_keys(Keys.CONTROL + "a")
@@ -166,7 +166,7 @@ while status:
             # Update Bet Amount and place bet
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
             second_odd_bet()
-            get_bet_amount()
+            update_bet_amount()
             place_bet()
             print(f"Current Balance: {get_balance()}")
             print(f"Bet Placed on Pattern 1, stake: {stake(get_balance())}")
