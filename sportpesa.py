@@ -11,7 +11,6 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime
 import pandas as pd
-from pandas import read_csv
 from plyer import notification
 
 
@@ -179,41 +178,41 @@ while status:
             with open(text_file, 'a') as file:
                 file.write(f'{new_data}\n')
 
-        # elif float(check_list[1]) < 1.04 and float(check_list[2]) < 1.04 and float(check_list[3]) < 1.04:
-        #     show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]}, {check_list[1]}, {check_list[2]} and {check_list[3]}")
-        #     # Update Bet Amount and place bet
-        #     print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-        #     first_odd_bet()
-        #     get_bet_amount()
-        #     place_bet()
-        #     print(f"Current Balance: {get_balance()}")
-        #     print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
-        #     new_data = {}
-        #     new_data["odd"] = check_list[0]
-        #     new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        #     new_data["round"] = nums_of_checks
-        #     new_data["odd_bet_placed"] = "Next with Pattern 1"
-        #     dict_list.append(new_data)
-        #     with open(text_file, 'a') as file:
-        #         file.write(f'{new_data}\n')
+        elif float(check_list[1]) < 1.04 and float(check_list[2]) < 1.04 and float(check_list[3]) < 1.04:
+            show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]}, {check_list[1]}, {check_list[2]} and {check_list[3]}")
+            # Update Bet Amount and place bet
+            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
+            first_odd_bet()
+            update_bet_amount()
+            place_bet()
+            print(f"Current Balance: {get_balance()}")
+            print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
+            new_data = {}
+            new_data["odd"] = check_list[0]
+            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+            new_data["round"] = nums_of_checks
+            new_data["odd_bet_placed"] = "Next with Pattern 1"
+            dict_list.append(new_data)
+            with open(text_file, 'a') as file:
+                file.write(f'{new_data}\n')
 
-        # elif float(check_list[2]) < 1.04 and float(check_list[3]) < 1.04 and float(check_list[4]) < 1.04:
-        #     show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]}, {check_list[1]}, {check_list[2]}, {check_list[3]} and {check_list[4]}")
-        #     # Update Bet Amount and place bet
-        #     print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-        #     first_odd_bet()
-        #     get_bet_amount()
-        #     place_bet()
-        #     print(f"Current Balance: {get_balance()}")
-        #     print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
-        #     new_data = {}
-        #     new_data["odd"] = check_list[0]
-        #     new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        #     new_data["round"] = nums_of_checks
-        #     new_data["odd_bet_placed"] = "Next with Pattern 1"
-        #     dict_list.append(new_data)
-        #     with open(text_file, 'a') as file:
-        #         file.write(f'{new_data}\n')
+        elif float(check_list[2]) < 1.04 and float(check_list[3]) < 1.04 and float(check_list[4]) < 1.04:
+            show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]}, {check_list[1]}, {check_list[2]}, {check_list[3]} and {check_list[4]}")
+            # Update Bet Amount and place bet
+            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
+            first_odd_bet()
+            update_bet_amount()
+            place_bet()
+            print(f"Current Balance: {get_balance()}")
+            print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
+            new_data = {}
+            new_data["odd"] = check_list[0]
+            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+            new_data["round"] = nums_of_checks
+            new_data["odd_bet_placed"] = "Next with Pattern 1"
+            dict_list.append(new_data)
+            with open(text_file, 'a') as file:
+                file.write(f'{new_data}\n')
 
         else:
             new_data = {}
