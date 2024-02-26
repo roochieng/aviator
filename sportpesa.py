@@ -12,8 +12,6 @@ from dotenv import load_dotenv
 from datetime import datetime
 import pandas as pd
 from pandas import read_csv
-import openpyxl
-from openpyxl.workbook import Workbook
 from plyer import notification
 
 

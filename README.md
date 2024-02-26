@@ -1,19 +1,20 @@
 # Aviator APP
+## Automated Aviator Odds Collection Bet Placement and Prediction
 This is a Python script for collecting Aviator odds.
-## Context
+## Overview
+This project aims to automate the collection of betting odds from various sports betting websites and prepare data for future predictive modeling. The scripts are designed to scrape odds from specific websites (sportpesa.com, betika.co.ke, 1xbet.co.ke) using Python, Selenium, and multiprocessing for parallel processing. The collected data is saved into Pandas DataFrames for further analysis and training predictive models.
 
-Betika and sportpesa and maybe other platforms have aviator betting option.
-I would like to read paterns if any by collecting ~1000 cycles of odds and store for future analysis.
+## Features
+- Automated collection of betting odds from multiple websites.
+- Parallel processing for enhanced efficiency.
+- Data saved into Pandas DataFrames for future use.
+- Flexibility to accommodate website layout changes.
 
-## Platform
-
-*This tool is specific for betika aviator, implementation for other providers like sportpesa will come
-later on after this one is up and running*
-
-## Implementation
-
-Right now it stores odd and the date plus time the odd was stored in a csv file.
-This should be able to help me determine any pattern that can be used to predict a safe bet in aviator
+## Setup
+1. Clone the repository:
+```
+git clone https://github.com/roochieng/aviator.git
+```
 
 ### Caution
 
