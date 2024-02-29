@@ -32,7 +32,7 @@ today_date = datetime.today().strftime('%Y-%m-%d')
 url = os.environ.get('SPESA_URL')
 
 # Set the path to your ChromeDriver executable
-chrome_driver_path = "E:/Development/chromedriver-win64/chromedriver.exe"
+chrome_driver_path = "C:/Users/Me/Desktop/Test/chromedriver-win64/chromedriver.exe"
 
 # Create Chrome options
 chrome_options = Options()
@@ -113,7 +113,7 @@ def stake(balance) -> int:
     if int(balance // 2) > 2500:
         bet_amount = 2500
     else:
-        bet_amount = balance // 2
+        bet_amount = 2 #balance // 2
     return (bet_amount)
 
 

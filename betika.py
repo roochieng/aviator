@@ -33,7 +33,7 @@ today_date = datetime.today().strftime('%Y-%m-%d')
 url = os.environ.get('URL')
 
 # Set the path to your ChromeDriver executable
-chrome_driver_path = "E:/Development/chromedriver-win64/chromedriver.exe"
+chrome_driver_path = "C:/Users/Me/Desktop/Test/chromedriver-win64/chromedriver.exe"
 
 # Create Chrome options
 chrome_options = Options()
