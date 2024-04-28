@@ -47,7 +47,7 @@ driver = webdriver.Chrome(service=service, options=chrome_options)
 # Open the URL in the browser
 driver.get(url)
 
-# Find and interact with the login form elements
+# Get logins
 wait = WebDriverWait(driver, 20)
 username_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="text"][placeholder="Mobile"]')))
 password_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="password"]')))
