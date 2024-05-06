@@ -32,7 +32,7 @@ today_date = datetime.today().strftime('%Y-%m-%d')
 url = os.environ.get('SPESA_URL')
 
 # Set the path to your ChromeDriver executable
-chrome_driver_path = "C:/Users/Me/Desktop/Test/chromedriver-win64/chromedriver.exe"
+chrome_driver_path = "/home/me/Dependancies/chromedriver-linux64/chromedriver"
 
 # Create Chrome options
 chrome_options = Options()
@@ -53,6 +53,18 @@ username_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'in
 password_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="password"]')))
 submit_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="submit"]')))
 
+# username = WebDriverWait(driver, 10).until(
+#     EC.presence_of_element_located((By.ID, "user")))
+
+# password_field = WebDriverWait(driver, 10).until(
+#     EC.presence_of_element_located((By.ID, "password")))
+
+# button = WebDriverWait(driver, 10).until(
+#     EC.element_to_be_clickable((By.XPATH, "//button[@class='button--primary login-form__button']"))
+# )
+
+
+
 # Enter login credentials
 username_input.send_keys(os.environ.get('_USERNAME'))
 password_input.send_keys(os.environ.get('PASSWORD'))
@@ -61,11 +73,13 @@ password_input.send_keys(os.environ.get('PASSWORD'))
 submit_button.click()
 
 
-# Casino button
-casino_element = WebDriverWait(driver, 10).until(
-    EC.element_to_be_clickable((By.XPATH, '//a[@class="casino"]'))
+# Casino button avaitor button
+aviator_link = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.CSS_SELECTOR, "a.aviator"))
 )
-casino_element.click()
+
+# Click the Aviator link
+aviator_link.click()
 
 time.sleep(30)
 
