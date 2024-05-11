@@ -158,8 +158,11 @@ cleaned_payouts = [item.replace('x', '') for item in payouts]
 wait_check = True
 
 while wait_check:
-    if prep_data[0:4] != check_list[0:4]:
-    # Locate and click Auto button
+    payouts = driver.find_element(By.XPATH, '//div[@class="result-history disabled-on-game-focused my-2"]')
+    payouts = payouts.text.split("\n")
+    cleaned_payouts = [item.replace('x', '') for item in payouts]
+    if cleaned_payouts[0:4] != check_list[0:4]:
+        # Locate and click Auto button
         auto_button = WebDriverWait(driver, 25).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
         ActionChains(driver).move_to_element(auto_button).perform()
         auto_button.click()
@@ -171,6 +174,10 @@ while wait_check:
         auto_cash_out_switcher.click()
 
         wait_check = False
+
+directory = 'csv'
+if not os.path.exists(directory):
+    os.makedirs(directory)
 
 
 wins = 0
@@ -258,7 +265,7 @@ while status:
         if len(check_list) > 20:
             check_list.pop()
         nums_of_checks += 1
-    if wins >= 2:
+    if wins > 2:
         status = False
     if nums_of_checks > 30000:
         status = False
