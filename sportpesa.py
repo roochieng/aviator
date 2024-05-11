@@ -81,7 +81,7 @@ aviator_link = WebDriverWait(driver, 10).until(
 # Click the Aviator link
 aviator_link.click()
 
-time.sleep(30)
+time.sleep(15)
 
 
 # Get list of last payouts
@@ -96,17 +96,6 @@ def place_bet():
     bet_button = driver.find_element(By.XPATH, button_xpath)
     bet_button.click()
 
-# Locate and click Auto button
-auto_button = WebDriverWait(driver, 25).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
-ActionChains(driver).move_to_element(auto_button).perform()
-auto_button.click()
-
-
-time.sleep(1)
-
-# Click auto-cashout to on
-auto_cash_out_switcher = driver.find_element(By.XPATH, '//app-ui-switcher[@class="ng-untouched ng-pristine ng-valid"]/div[@class="input-switch off"]')
-auto_cash_out_switcher.click()
 
 # Get account balance
 def get_balance() -> float:
@@ -127,7 +116,7 @@ def stake(balance) -> int:
     if int(balance // 2) > 2500:
         bet_amount = 2500
     else:
-        bet_amount = 2 #balance // 2
+        bet_amount = balance // 5
     return (bet_amount)
 
 
@@ -145,7 +134,7 @@ def second_odd_bet():
     odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
     odd_element.send_keys(Keys.CONTROL + "a")
     odd_element.send_keys(Keys.BACKSPACE)
-    new_text = "1.2"
+    new_text = "1.10"
     odd_element.send_keys(new_text)
 
 
@@ -153,7 +142,7 @@ def first_odd_bet():
     odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
     odd_element.send_keys(Keys.CONTROL + "a")
     odd_element.send_keys(Keys.BACKSPACE)
-    new_text = "1.03"
+    new_text = "1.10"
     odd_element.send_keys(new_text)
 
 
@@ -162,6 +151,29 @@ text_file = f"sportpesa_logs/Sportpesa Aviator history {today_date}.txt"
 previous_cleaned_payouts = ['s', 'a', 'c']
 dict_list = []
 
+payouts = driver.find_element(By.XPATH, '//div[@class="result-history disabled-on-game-focused my-2"]')
+payouts = payouts.text.split("\n")
+cleaned_payouts = [item.replace('x', '') for item in payouts]
+
+wait_check = True
+
+while wait_check:
+    if prep_data[0:4] != check_list[0:4]:
+    # Locate and click Auto button
+        auto_button = WebDriverWait(driver, 25).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="tab ng-star-inserted" and contains(text(), "Auto")]')))
+        ActionChains(driver).move_to_element(auto_button).perform()
+        auto_button.click()
+
+        time.sleep(0.5)
+
+        # Click auto-cashout to on
+        auto_cash_out_switcher = driver.find_element(By.XPATH, '//app-ui-switcher[@class="ng-untouched ng-pristine ng-valid"]/div[@class="input-switch off"]')
+        auto_cash_out_switcher.click()
+
+        wait_check = False
+
+
+wins = 0
 nums_of_checks = 0
 status = True
 
@@ -174,7 +186,7 @@ while status:
     if cleaned_payouts[0:4] != check_list[0:4]:
         previous_cleaned_payouts = cleaned_payouts
         check_list.insert(0, cleaned_payouts[0])
-        if float(check_list[0]) < 1.04 and float(check_list[1]) < 1.04 and float(check_list[2]) < 1.04:
+        if float(check_list[0]) == 1.00:# and float(check_list[1]) == 1.00:# and float(check_list[2]) < 1.04 and float(check_list[4]):
             show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]} and {check_list[1]} and {check_list[2]}")
             # Update Bet Amount and place bet
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
@@ -192,41 +204,44 @@ while status:
             with open(text_file, 'a') as file:
                 file.write(f'{new_data}\n')
 
-        elif float(check_list[1]) < 1.04 and float(check_list[2]) < 1.04 and float(check_list[3]) < 1.04:
-            show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]}, {check_list[1]}, {check_list[2]} and {check_list[3]}")
-            # Update Bet Amount and place bet
-            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-            first_odd_bet()
-            update_bet_amount()
-            place_bet()
-            print(f"Current Balance: {get_balance()}")
-            print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
-            new_data = {}
-            new_data["odd"] = check_list[0]
-            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            new_data["round"] = nums_of_checks
-            new_data["odd_bet_placed"] = "Next with Pattern 1"
-            dict_list.append(new_data)
-            with open(text_file, 'a') as file:
-                file.write(f'{new_data}\n')
+        # elif float(check_list[1]) < 1.04 and float(check_list[2]) < 1.04 and float(check_list[3]) < 1.04:
+        #     show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]}, {check_list[1]}, {check_list[2]} and {check_list[3]}")
+        #     # Update Bet Amount and place bet
+        #     print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
+        #     first_odd_bet()
+        #     update_bet_amount()
+        #     place_bet()
+        #     print(f"Current Balance: {get_balance()}")
+        #     print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
+        #     new_data = {}
+        #     new_data["odd"] = check_list[0]
+        #     new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        #     new_data["round"] = nums_of_checks
+        #     new_data["odd_bet_placed"] = "Next with Pattern 1"
+        #     dict_list.append(new_data)
+        #     with open(text_file, 'a') as file:
+        #         file.write(f'{new_data}\n')
 
-        elif float(check_list[2]) < 1.04 and float(check_list[3]) < 1.04 and float(check_list[4]) < 1.04:
-            show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]}, {check_list[1]}, {check_list[2]}, {check_list[3]} and {check_list[4]}")
-            # Update Bet Amount and place bet
-            print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-            first_odd_bet()
-            update_bet_amount()
-            place_bet()
-            print(f"Current Balance: {get_balance()}")
-            print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
-            new_data = {}
-            new_data["odd"] = check_list[0]
-            new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            new_data["round"] = nums_of_checks
-            new_data["odd_bet_placed"] = "Next with Pattern 1"
-            dict_list.append(new_data)
-            with open(text_file, 'a') as file:
-                file.write(f'{new_data}\n')
+
+        if float(check_list[0]) > 1.10 and float(check_list[1]) == 1.00:# and float(check_list[2]) == 1.00:# and float(check_list[3]) < 1.04 and float(check_list[4]) < 1.04 and float(check_list[5]) < 1.04 and float(check_list[6]) < 1.04:
+            wins += 1
+        # elif float(check_list[2]) < 1.04 and float(check_list[3]) < 1.04 and float(check_list[4]) < 1.04:
+        #     show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]}, {check_list[1]}, {check_list[2]}, {check_list[3]} and {check_list[4]}")
+        #     # Update Bet Amount and place bet
+        #     print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
+        #     first_odd_bet()
+        #     update_bet_amount()
+        #     place_bet()
+        #     print(f"Current Balance: {get_balance()}")
+        #     print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
+        #     new_data = {}
+        #     new_data["odd"] = check_list[0]
+        #     new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        #     new_data["round"] = nums_of_checks
+        #     new_data["odd_bet_placed"] = "Next with Pattern 1"
+        #     dict_list.append(new_data)
+        #     with open(text_file, 'a') as file:
+        #         file.write(f'{new_data}\n')
 
         else:
             new_data = {}
@@ -243,6 +258,8 @@ while status:
         if len(check_list) > 20:
             check_list.pop()
         nums_of_checks += 1
+    if wins >= 2:
+        status = False
     if nums_of_checks > 30000:
         status = False
 
