@@ -12,8 +12,8 @@ from dotenv import load_dotenv
 from datetime import datetime
 import pandas as pd
 from pandas import read_csv
-import openpyxl
-from openpyxl.workbook import Workbook
+# import openpyxl
+# from openpyxl.workbook import Workbook
 import copy
 
 
@@ -22,7 +22,7 @@ url = 'https://www.betika.com/en-ke/aviator'
 
 
 # Set the path to your ChromeDriver executable
-chrome_driver_path = "E:/Development/chromedriver-win64/chromedriver.exe"
+chrome_driver_path = "/home/me/Dependancies/chromedriver-linux64/chromedriver"
 
 # Create Chrome options
 chrome_options = Options()

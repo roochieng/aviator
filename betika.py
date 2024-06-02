@@ -30,11 +30,10 @@ def show_notification(title, message):
 
 
 today_date = datetime.today().strftime('%Y-%m-%d')
-url = os.environ.get('URL')
+url = os.environ.get('BETIKA_URL')
 
 # Set the path to your ChromeDriver executable
-chrome_driver_path = "C:/Users/Me/Desktop/Test/chromedriver-win64/chromedriver.exe"
-
+chrome_driver_path = "/home/me/Dependancies/chromedriver-linux64/chromedriver"
 # Create Chrome options
 chrome_options = Options()
 

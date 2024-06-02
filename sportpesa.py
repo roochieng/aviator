@@ -116,7 +116,7 @@ def stake(balance) -> int:
     if int(balance // 2) > 2500:
         bet_amount = 2500
     else:
-        bet_amount = balance // 5
+        bet_amount = balance // 2
     return (bet_amount)
 
 
@@ -134,7 +134,7 @@ def second_odd_bet():
     odd_element = driver.find_element(By.XPATH, '//div[@class="cashout-spinner-wrapper"]//input[@class="font-weight-bold"]')
     odd_element.send_keys(Keys.CONTROL + "a")
     odd_element.send_keys(Keys.BACKSPACE)
-    new_text = "1.10"
+    new_text = "1.20"
     odd_element.send_keys(new_text)
 
 
@@ -193,7 +193,7 @@ while status:
     if cleaned_payouts[0:4] != check_list[0:4]:
         previous_cleaned_payouts = cleaned_payouts
         check_list.insert(0, cleaned_payouts[0])
-        if float(check_list[0]) == 1.00:# and float(check_list[1]) == 1.00:# and float(check_list[2]) < 1.04 and float(check_list[4]):
+        if float(check_list[0]) > 1.10 and float(check_list[1]) == 1.00 and float(check_list[2]) == 1.00:# and float(check_list[4]) == 1.00:
             show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]} and {check_list[1]} and {check_list[2]}")
             # Update Bet Amount and place bet
             print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
@@ -202,6 +202,7 @@ while status:
             place_bet()
             print(f"Current Balance: {get_balance()}")
             print(f"Bet Placed on Pattern 1, stake: {stake(get_balance())}")
+            wins += 1
             new_data = {}
             new_data["odd"] = check_list[0]
             new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
@@ -211,44 +212,6 @@ while status:
             with open(text_file, 'a') as file:
                 file.write(f'{new_data}\n')
 
-        # elif float(check_list[1]) < 1.04 and float(check_list[2]) < 1.04 and float(check_list[3]) < 1.04:
-        #     show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]}, {check_list[1]}, {check_list[2]} and {check_list[3]}")
-        #     # Update Bet Amount and place bet
-        #     print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-        #     first_odd_bet()
-        #     update_bet_amount()
-        #     place_bet()
-        #     print(f"Current Balance: {get_balance()}")
-        #     print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
-        #     new_data = {}
-        #     new_data["odd"] = check_list[0]
-        #     new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        #     new_data["round"] = nums_of_checks
-        #     new_data["odd_bet_placed"] = "Next with Pattern 1"
-        #     dict_list.append(new_data)
-        #     with open(text_file, 'a') as file:
-        #         file.write(f'{new_data}\n')
-
-
-        if float(check_list[0]) > 1.10 and float(check_list[1]) == 1.00:# and float(check_list[2]) == 1.00:# and float(check_list[3]) < 1.04 and float(check_list[4]) < 1.04 and float(check_list[5]) < 1.04 and float(check_list[6]) < 1.04:
-            wins += 1
-        # elif float(check_list[2]) < 1.04 and float(check_list[3]) < 1.04 and float(check_list[4]) < 1.04:
-        #     show_notification("Youre pattern is found, bet imediately:", f"Your pattern of: {check_list[0]}, {check_list[1]}, {check_list[2]}, {check_list[3]} and {check_list[4]}")
-        #     # Update Bet Amount and place bet
-        #     print(f"Round: {nums_of_checks}, odd: {check_list[0]}")
-        #     first_odd_bet()
-        #     update_bet_amount()
-        #     place_bet()
-        #     print(f"Current Balance: {get_balance()}")
-        #     print(f"Bet Placed on Pattern 2, stake: {stake(get_balance())}")
-        #     new_data = {}
-        #     new_data["odd"] = check_list[0]
-        #     new_data["datetime"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        #     new_data["round"] = nums_of_checks
-        #     new_data["odd_bet_placed"] = "Next with Pattern 1"
-        #     dict_list.append(new_data)
-        #     with open(text_file, 'a') as file:
-        #         file.write(f'{new_data}\n')
 
         else:
             new_data = {}
