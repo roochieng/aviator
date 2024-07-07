@@ -31,18 +31,12 @@ def show_notification(title, message):
 today_date = datetime.today().strftime('%Y-%m-%d')
 url = os.environ.get('SPESA_URL')
 
-# Set the path to your ChromeDriver executable
-chrome_driver_path = "/home/me/Dependancies/chromedriver-linux64/chromedriver"
-
-# Create Chrome options
+# Setup Selenium
 chrome_options = Options()
+chrome_options.add_argument("--headless")  # Run in headless mode for faster performance
+chrome_service = ChromeService(executable_path='/home/me/Dependancies/chromedriver-linux64/chromedriver')
+driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
 
-# Open chrome in background mode
-# chrome_options.add_argument("--headless")
-
-# Create a Chrome webdriver with options
-service = ChromeService(executable_path=chrome_driver_path)
-driver = webdriver.Chrome(service=service, options=chrome_options)
 
 # Open the URL in the browser
 driver.get(url)
@@ -81,7 +75,7 @@ aviator_link = WebDriverWait(driver, 10).until(
 # Click the Aviator link
 aviator_link.click()
 
-time.sleep(15)
+time.sleep(30)
 
 
 # Get list of last payouts
